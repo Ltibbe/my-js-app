@@ -55,7 +55,9 @@ var PokemonList = [
         }
     ];
 
-let PokemonListHeight = "";
+//!* Writes the name of the pokemon, and highlights special pokemon sizes *//
+
+let PokemonList = "";
 for (let i = 0; i < 8; PokemonList.length; i++) {
     if (PokemonList[i].height > 6) {
         document.write("<p>" + PokemonList[i].name + "("
