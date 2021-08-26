@@ -66,6 +66,11 @@ let pokemonRepository = (function () {
     };
 })();
 
+//function myLoopFunction(pokemonList) {
+//    console.log(pokemon.name + ' is ' + pokemon.age + ' years old.');
+//}
+//pokemon.forEach(myLoopFunction); 
+
 console.log(pokemonRepository.getAll()); // []
 pokemonRepository.add(item)({
     name: 'Pikachu'
