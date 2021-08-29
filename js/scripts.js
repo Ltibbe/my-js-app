@@ -56,23 +56,26 @@ let pokemonRepository = (function () {
         }
     ];
 
+    function add(pokemon) {
+        pokemonList.push(pokemon);
+    }
+
+    function pokemonRepository.getAll() {
+        return pokemonList;
+    }
+
     return {
-        add: function (pokemon) {
-            pokemonList.push(pokemon);
-        },
-        getAll: function () {
-            return pokemonList;
-        }
+        add: add,
+        getAll: getAll
     };
 })();
 
-//function myLoopFunction(pokemonList) {
-//    console.log(pokemon.name + ' is ' + pokemon.age + ' years old.');
-//}
-//pokemon.forEach(myLoopFunction); 
+pokemonList.forEach(function (pokemon) {
+    console.log(pokemon.name + ' is ' + pokemon.age + ' years old.');
+});
 
-console.log(pokemonRepository.getAll()); // []
-pokemonRepository.add(item)({
+
+pokemonRepository.add({
     name: 'Pikachu'
 });
 console.log(pokemonRepository.getAll()); // [ { name: 'Pikachu' } ]
