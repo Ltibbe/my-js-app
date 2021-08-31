@@ -21,25 +21,25 @@ let pokemonRepository = (function () {
         {
             name: "charmander",
             height: 0.6,
-            types: "fire",
+            types: ["fire"],
             abilities: ["blaze", "solar-power"]
         },
         {
             name: "Charmeleon",
             height: 1.1,
-            types: "fire",
+            types: ["fire"],
             abilities: ["blaze", "solar-power"]
         },
         {
             name: "Wartortle",
             height: 1,
-            types: "water",
+            types: ["water"],
             abilities: ["rain-dish", "torrent"]
         },
         {
             name: "Squirtle",
             height: 0.5,
-            types: "water",
+            types: ["water"],
             abilities: ["rain-dish", "torrent"]
         },
         {
@@ -51,7 +51,7 @@ let pokemonRepository = (function () {
         {
             name: "Blastoise",
             height: 1.6,
-            types: "water",
+            types: ["water"],
             abilities: ["rain-dish", "torrent"]
         }
     ];
