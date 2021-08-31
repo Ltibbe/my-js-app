@@ -9,7 +9,7 @@ let pokemonRepository = (function () {
         {
             name: "Ninetales",
             height: 1.1,
-            types: "fire",
+            types: ["fire"],
             abilities: ["flash fire", "draught"]
         },
         {
@@ -56,26 +56,23 @@ let pokemonRepository = (function () {
         }
     ];
 
-    function add(pokemon) {
-        pokemonList.push(pokemon);
-    }
-
-    function pokemonRepository.getAll() {
-        return pokemonList;
-    }
-
     return {
-        add: add,
-        getAll: getAll
+        add: function (pokemon) {
+            pokemonList.push(pokemon);
+        },
+        getAll: function () {
+            return pokemonList;
+        }
     };
 })();
 
-pokemonList.forEach(function (pokemon) {
-    console.log(pokemon.name + ' is ' + pokemon.age + ' years old.');
-});
-
 
 pokemonRepository.add({
-    name: 'Pikachu'
+    name: 'Pikachu',
+    height: 1.7
 });
 console.log(pokemonRepository.getAll()); // [ { name: 'Pikachu' } ]
+
+pokemonRepository.getAll().forEach(function (pokemon) {
+    console.log(pokemon.name + ' is ' + pokemon.height + ' tall.');
+});
