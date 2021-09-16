@@ -19,7 +19,7 @@ let pokemonRepository = (function () {
             abilities: ["chlorophyll", "overgrow"]
         },
         {
-            name: "charmander",
+            name: "Charmander",
             height: 0.6,
             types: ["fire"],
             abilities: ["blaze", "solar-power"]
@@ -56,23 +56,36 @@ let pokemonRepository = (function () {
         }
     ];
 
+    function addListItem(pokemon) {
+        let list = document.querySelector('.pokemon-list');
+        let listItem = document.createElement('li');
+        let button = document.createElement('button');
+
+        button.innerText = pokemon.name;
+        button.classList.add('button-class');
+
+        listItem.appendChild(button);
+        list.appendChild(listItem);
+
+        button.addEventListener('click', function (event) {
+            console.log(showDetails(pokemon));
+        });
+    };
+
+    function showDetails(pokemon) {
+        console.log("My pokemon is called " + pokemon.name);
+    }
+
+    pokemonList.forEach(
+        pokemon => addListItem(pokemon)
+    )
+
     return {
         add: function (pokemon) {
             pokemonList.push(pokemon);
         },
         getAll: function () {
             return pokemonList;
-        }
+        },
     };
 })();
-
-
-pokemonRepository.add({
-    name: 'Pikachu',
-    height: 1.7
-});
-console.log(pokemonRepository.getAll()); // [ { name: 'Pikachu' } ]
-
-pokemonRepository.getAll().forEach(function (pokemon) {
-    console.log(pokemon.name + ' is ' + pokemon.height + ' tall.');
-});
