@@ -99,41 +99,60 @@ let pokemonRepository = (function () {
     showModal('Modal title', 'This is the modal content!');
   });
 
-  //pokemon functions
+  /**  Function to validate information of pokemons to be added.
+  	 * It must be an object and it must have three fields,
+  	 * will show message at console.
+  	 */
+  	const itemCheck = (item) => {
+  		const itemArray = item['name'] !== undefined;
 
-function add(pokemon) {
-  if (
-    typeof pokemon === 'object' &&
-    'name' in pokemon
-    // 'detailsUrl' in pokemon
-  ) {
-    pokemonList.push(pokemon);
-  } else {
-    console.log('pokemon is not correct');
-  }
-}
+  		return itemArray;
+  	};
+  	/** Check if pokemon has the correct data to be part of the list.
+  	 * If it doesn't, then error message.
+  	 */
+  	function add(pokemon) {
+  		if (itemCheck(pokemon)) {
+  			repository.push(pokemon);
+  		} else {
+  			throw 'item must be an object, it was not included on the list';
+  		}
+  	}
 
-function getAll() {
-  return pokemonList;
-}
+    function getAll() {
+      return pokemonList;
+    }
 
 //Here, .getAll().forEach brings back every pokemon + .name +.height
 function addListItem(pokemon) {
     let list = document.querySelector('.pokemon-list');
     let listItem = document.createElement('li');
-    let button = document.createElement('button');
+    // let button = document.createElement('button');
+
+		/** create button with pokemon's names for each element */
+		const button = document.createElement('button');
+		button.innerText = pokemon.name;
 
     button.innerText = pokemon.name;
     button.classList.add('button-class');
     button.setAttribute('data-toggle', 'modal');
     button.setAttribute('data-target', '#modal-container');
 
+    /**  call function with details on pokemon on click:*/
+		addButtonEvent(button, pokemon);
+
     listItem.appendChild(button);
     list.appendChild(listItem);
 
     button.addEventListener('click', function (event) {
         showDetails(pokemon);
-});
+    }
+
+    const addButtonEvent = (button, pokemon) =>
+		button.addEventListener('click', function () {
+			showDetails(pokemon);
+		});
+
 
 function showDetails(pokemon) {
   loadDetails(pokemon).then(function() {
@@ -162,7 +181,9 @@ function loadList() {
       json.results.forEach(function (item) {
         let pokemon = {
           name: item.name,
-          detailsUrl: item.url
+          detailsUrl: item.url,
+          height: item.height,
+          types: item.types
         };
         add(pokemon);
         console.log(pokemon);
@@ -188,11 +209,57 @@ function loadList() {
     });
   }
 
-  function showDetails(item) {
-    pokemonRepository.loadDetails(item).then(function () {
-     console.log(item);
+  function showDetails(pokemon) {
+    loadDetails(pokemon).then(function (response) {
+     console.log(response);
+     showModal(response);
   });
   }
+
+pokemonRepository.loadList().then(function() {
+  // Now the data is loaded!
+pokemonRepository.getAll().forEach(function(pokemon){
+    pokemonRepository.addListItem(pokemon);
+  });
+});
+
+/** Show modal with pokemon's details*/
+	function showModal(pokemon) {
+		let modalBody = $('.modal-body');
+		let modalTitle = $('.modal-title');
+		let modalHeader = $('.modal-header');
+		/** Empty modal */
+		modalHeader.empty();
+		modalTitle.empty();
+		modalBody.empty();
+		/**Create title for Modal */
+		let nameElement = $('<h1>' + pokemon.name + '</h1>');
+		/**Create content for Modal */
+		let imageElementFront = $('<img class="modal-img" style="width:50%">');
+		imageElementFront.attr('src', pokemon.imageUrlFront);
+		imageElementFront.attr(
+			'sr-only',
+			'Front image of ' + pokemon.name + '</p>'
+		);
+
+		let imageElementBack = $('<img class="modal-img" style="width:50%">');
+		imageElementBack.attr('src', pokemon.imageUrlBack);
+		imageElementBack.attr('sr-only', 'Back image of ' + pokemon.name + '</p>');
+
+		let heightElement = $('<p>' + 'Height : ' + pokemon.height + '</p>');
+
+		let types = ' ';
+		pokemon.types.map(({ type }) => (types = types + ' ' + type.name));
+		let contentElementTypes = $('<p>' + 'Types : ' + types + '</p>');
+		contentElementTypes.attr('src', pokemon.types);
+
+		/**Append title and content to Modal */
+		modalHeader.append(nameElement);
+		modalBody.append(imageElementFront);
+		modalBody.append(imageElementBack);
+		modalBody.append(heightElement);
+		modalBody.append(contentElementTypes);
+	}
 
   return {
     add: add,
@@ -202,25 +269,6 @@ function loadList() {
     addListItem: addListItem,
     showModal: showModal
   };
-})();
-
-pokemonRepository.loadList().then(function() {
-  // Now the data is loaded!
-pokemonRepository.getAll().forEach(function(pokemon){
-    pokemonRepository.addListItem(pokemon);
-  });
-});
-
-  let container = document.querySelector('#image-container');
-
-  // Create an <img> element
-  let myImage = document.createElement('img');
-
-  // setting `src` property to set the actual element's `src` attribute
-  // this also works on <img> elements selected by querySelector() method, it is not specific for <img> elements created with createElement() methods
-  myImage.src = 'https://picsum.photos/300/300';
-
-  container.appendChild(myImage);
 //
 // // Form validation for email address and password//
 // (function() {
