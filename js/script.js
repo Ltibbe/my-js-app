@@ -153,3 +153,11 @@ let PokemonRepository = (function () {
 		showModal: showModal,
 	};
 })();
+
+console.log(PokemonRepository.getAll()); // see repository with the alteration
+
+PokemonRepository.loadList().then(function () {
+	PokemonRepository.getAll().forEach(function (pokemon) {
+		PokemonRepository.addListItem(pokemon);
+	});
+});
