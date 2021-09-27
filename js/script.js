@@ -199,10 +199,10 @@ function loadList() {
       return response.json();
     }).then(function (details) {
       // Now we add the details to the item
-      item.imageUrl = details.sprites.front_default
-      item.imageUrlBack = details.sprites.back_default;
-      item.height = details.height;
-      item.types = details.types;
+      pokemon.imageUrl = details.sprites.front_default
+      pokemon.imageUrlBack = details.sprites.back_default;
+      pokemon.height = details.height;
+      pokemon.types = details.types;
       return pokemon;
     }).catch(function (e) {
       console.error(e);
