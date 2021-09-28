@@ -131,10 +131,15 @@ let PokemonRepository = (function () {
   modalContainer.appendChild(modal);
 
   modalContainer.classList.add('is-visible');
-  }
 
   function hideModal() {
-  modalContainer.classList.remove('is-visible');
+    let modalContainer = document.querySelector('#modal-container');
+    modalContainer.classList.remove('is-visible');
+
+    if (dialogPromiseReject) {
+      dialogPromiseReject();
+      dialogPromiseReject = null;
+    }
   }
 
   function showDialog(title, text) {
@@ -159,17 +164,15 @@ let PokemonRepository = (function () {
 
   // Return a promise that resolves when confirmed, else rejects
   return new Promise((resolve, reject) => {
-    cancelButton.addEventListener('click', () => {
-      hideModal();
-      reject();
-    });
+    cancelButton.addEventListener('click', hideModal);
     confirmButton.addEventListener('click', () => {
+      dialogPromiseReject = null; //Reset this
       hideModal();
       resolve();
-    })
   });
-}
-}
+  //This can be used to reject other functions
+  dialogPromiseReject = reject;
+});
 
   document.querySelector('#show-modal').addEventListener('click', () => {
   showModal('Modal title', 'This is the modal content!');
