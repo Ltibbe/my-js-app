@@ -1,4 +1,5 @@
 let PokemonRepository = (function () {
+  let modalContainer = document.querySelector('#modal-container');
 	let repository = [];
 	let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
@@ -58,6 +59,7 @@ let PokemonRepository = (function () {
 		button.addEventListener('click', function () {
 			showDetails(pokemon);
 		});
+
 	/** Fetch details of pokemon from API */
 	function loadList() {
 		return fetch(apiUrl)
@@ -108,41 +110,88 @@ let PokemonRepository = (function () {
 
 	/** Show modal with pokemon's details*/
 	function showModal(pokemon) {
-		let modalBody = $('.modal-body');
-		let modalTitle = $('.modal-title');
-		let modalHeader = $('.modal-header');
-		/** Empty modal */
-		modalHeader.empty();
-		modalTitle.empty();
-		modalBody.empty();
-		/**Create title for Modal */
-		let nameElement = $('<h1>' + pokemon.name + '</h1>');
-		/**Create content for Modal */
-		let imageElementFront = $('<img class="modal-img" style="width:50%">');
-		imageElementFront.attr('src', pokemon.imageUrlFront);
-		imageElementFront.attr(
-			'sr-only',
-			'Front image of ' + pokemon.name + '</p>'
-		);
+    modalContainer.innerHTML = '';
 
-		let imageElementBack = $('<img class="modal-img" style="width:50%">');
-		imageElementBack.attr('src', pokemon.imageUrlBack);
-		imageElementBack.attr('sr-only', 'Back image of ' + pokemon.name + '</p>');
+  let modal = document.createElement('div');
+  modal.classList.add('modal');
 
-		let heightElement = $('<p>' + 'Height : ' + pokemon.height + '</p>');
+  // Add the new modal content
+  let closeButtonElement = document.createElement('button');
+  closeButtonElement.classList.add('modal-close');
+  closeButtonElement.addEventListener('click', hideModal);
 
-		let types = ' ';
-		pokemon.types.map(({ type }) => (types = types + ' ' + type.name));
-		let contentElementTypes = $('<p>' + 'Types : ' + types + '</p>');
-		contentElementTypes.attr('src', pokemon.types);
+  titleElement.innerText = title;
 
-		/**Append title and content to Modal */
-		modalHeader.append(nameElement);
-		modalBody.append(imageElementFront);
-		modalBody.append(imageElementBack);
-		modalBody.append(heightElement);
-		modalBody.append(contentElementTypes);
-	}
+  let contentElement = document.createElement('p');
+  contentElement.innerText = text;
+
+  modal.appendChild(closeButtonElement);
+  modal.appendChild(titleElement);
+  modal.appendChild(contentElement);
+  modalContainer.appendChild(modal);
+
+  modalContainer.classList.add('is-visible');
+  }
+
+  function hideModal() {
+  modalContainer.classList.remove('is-visible');
+  }
+
+  function showDialog(title, text) {
+  showModal(title, text);
+
+  // We have defined modalContainer here
+  let modalContainer = document.querySelector('#modal-container');
+
+  // We want to add a confirm and cancel button to the modal
+  let modal = modalContainer.querySelector('.modal');
+
+  let confirmButton = document.createElement('button');
+  confirmButton.classList.add('modal-confirm');
+  confirmButton.innerText = 'Confirm';
+
+  let cancelButton = document.createElement('button');
+  cancelButton.classList.add('modal-cancel');
+  cancelButton.innerText = 'Cancel';
+
+  modal.appendChild(confirmButton);
+  modal.appendChild(cancelButton);
+
+  // Return a promise that resolves when confirmed, else rejects
+  return new Promise((resolve, reject) => {
+    cancelButton.addEventListener('click', () => {
+      hideModal();
+      reject();
+    });
+    confirmButton.addEventListener('click', () => {
+      hideModal();
+      resolve();
+    })
+  });
+}
+}
+
+  document.querySelector('#show-modal').addEventListener('click', () => {
+  showModal('Modal title', 'This is the modal content!');
+
+  document.querySelector('#show-dialog').addEventListener('click', () => {
+  showDialog('Confirm action', 'Are you sure you want to do this?');
+  });
+
+  window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
+    hideModal();
+  }
+});
+
+modalContainer.addEventListener('click', (e) => {
+// Since this is also triggered when clicking INSIDE the modal container,
+// We only want to close if the user clicks directly on the overlay
+let target = e.target;
+if (target === modalContainer) {
+  hideModal();
+}
+});
 
 	return {
 		add: add,
