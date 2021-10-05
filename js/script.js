@@ -106,7 +106,6 @@ let PokemonRepository = (function () {
 	/** Show details of pokemon on console and on Modal*/
 	function showDetails(pokemon) {
 		loadDetails(pokemon).then(function (response) {
-			console.log(response);
 			showModal(response);
 		});
 	}
