@@ -7,16 +7,16 @@ let PokemonRepository = (function () {
 	 * It must be an object and it must have three fields,
 	 * will show message at console.
 	 */
-	const itemCheck = (item) => {
-		const itemArray = item['name'] !== undefined;
-
-		return itemArray;
-	};
+	// const itemCheck = (item) => {
+	// 	const itemArray = item['name'] !== undefined;
+  //
+	// 	return itemArray;
+	// };
 	/** Check if pokemon has the correct data to be part of the list.
 	 * If it doesn't, then error message.
 	 */
 	function add(pokemon) {
-		if (itemCheck(pokemon)) {
+		if (typeof pokemon === 'object' && 'name' in pokemon) {
 			repository.push(pokemon);
 		} else {
 			throw 'item must be an object, it was not included on the list';
@@ -37,7 +37,7 @@ let PokemonRepository = (function () {
 		listPokemon.classList.add('group-list-item');
 
 		/** create button with pokemon's names for each element */
-		const button = document.createElement('button');
+		let button = document.createElement('button');
 		button.innerText = pokemon.name;
 
 		/** add class to button to style it with Bootstrap*/
@@ -46,7 +46,7 @@ let PokemonRepository = (function () {
 		button.setAttribute('data-target', '#modal-container');
 
 		/**  call function with details on pokemon on click:*/
-		addButtonEvent(button, pokemon);
+		button.addButtonEvent(button, pokemon);
 
 		/** append button to the list item*/
 		listPokemon.appendChild(button);
@@ -55,13 +55,14 @@ let PokemonRepository = (function () {
 		newList.appendChild(listPokemon);
 	}
 
-	const addButtonEvent = (button, pokemon) =>
+	let addButtonEvent = (button, pokemon) =>
 		button.addEventListener('click', function () {
 			showDetails(pokemon);
 		});
 
 	/** Fetch details of pokemon from API */
 	function loadList() {
+    showLoadingMessage();
 		return fetch(apiUrl)
 			.then(function (response) {
 				return response.json();
@@ -75,28 +76,30 @@ let PokemonRepository = (function () {
 						types: item.types,
 					};
 					add(pokemon);
-					console.log(pokemon);
 				});
 			})
 			.catch(function (e) {
+        hideLoadingMessage();
 				console.error(e);
 			});
 	}
 	/** Load details of pokemons from API to Modal*/
-	function loadDetails(pokemon) {
-		let url = pokemon.detailsUrl;
+	function loadDetails(item) {
+     showLoadingMessage();
+		let url = item.detailsUrl;
 		return fetch(url)
 			.then(function (response) {
+        hideLoadingMessage();
 				return response.json();
 			})
 			.then(function (details) {
-				pokemon.imageUrlFront = details.sprites.front_default;
-				pokemon.imageUrlBack = details.sprites.back_default;
-				pokemon.height = details.height;
-				pokemon.types = details.types;
-				return pokemon;
+				item.imageUrlFront = details.sprites.front_default;
+				item.imageUrlBack = details.sprites.back_default;
+				item.height = details.height;
+				item.types = details.types;
 			})
 			.catch(function (e) {
+        hideLoadingMessage();
 				console.error(e);
 			});
 	}
@@ -108,9 +111,9 @@ let PokemonRepository = (function () {
 		});
 	}
 
-	/** Show modal with pokemon's details*/
-	function showModal(pokemon) {
-    modalContainer.innerHTML = '';
+	// /** Show modal with pokemon's details*/Qjuery
+	// function showModal(pokemon) {
+  //   modalContainer.innerHTML = '';
 
   let modal = document.createElement('div');
   modal.classList.add('modal');
@@ -142,8 +145,8 @@ let PokemonRepository = (function () {
     }
   }
 
-  function showDialog(title, text) {
-  showModal(title, text);
+  function showDialog(pokemon) {
+  showModal(pokemon);
 
   // We have defined modalContainer here
   let modalContainer = document.querySelector('#modal-container');
@@ -206,7 +209,7 @@ if (target === modalContainer) {
 	};
 })();
 
-console.log(PokemonRepository.getAll()); // see repository with the alteration
+// console.log(PokemonRepository.getAll()); // see repository with the alteration
 
 PokemonRepository.loadList().then(function () {
 	PokemonRepository.getAll().forEach(function (pokemon) {
