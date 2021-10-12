@@ -12,6 +12,7 @@ let PokemonRepository = (function () {
   //
 	// 	return itemArray;
 	// };
+
 	/** Check if pokemon has the correct data to be part of the list.
 	 * If it doesn't, then error message.
 	 */
@@ -46,7 +47,7 @@ let PokemonRepository = (function () {
 		button.setAttribute('data-target', '#modal-container');
 
 		/**  call function with details on pokemon on click:*/
-		button.addButtonEvent(button, pokemon);
+		addButtonEvent(button, pokemon);
 
 		/** append button to the list item*/
 		listPokemon.appendChild(button);
@@ -62,7 +63,7 @@ let PokemonRepository = (function () {
 
 	/** Fetch details of pokemon from API */
 	function loadList() {
-    showLoadingMessage();
+    // showLoadingMessage();
 		return fetch(apiUrl)
 			.then(function (response) {
 				return response.json();
@@ -83,13 +84,14 @@ let PokemonRepository = (function () {
 				console.error(e);
 			});
 	}
+
 	/** Load details of pokemons from API to Modal*/
 	function loadDetails(item) {
-     showLoadingMessage();
+     // showLoadingMessage();
 		let url = item.detailsUrl;
 		return fetch(url)
 			.then(function (response) {
-        hideLoadingMessage();
+        // hideLoadingMessage();
 				return response.json();
 			})
 			.then(function (details) {
@@ -99,20 +101,22 @@ let PokemonRepository = (function () {
 				item.types = details.types;
 			})
 			.catch(function (e) {
-        hideLoadingMessage();
+        // hideLoadingMessage();
 				console.error(e);
 			});
 	}
+
 	/** Show details of pokemon on console and on Modal*/
 	function showDetails(pokemon) {
-		loadDetails(pokemon).then(function (response) {
-			showModal(response);
+		loadDetails(pokemon).then(function () {
+			showModal(pokemon);
 		});
 	}
 
 	// /** Show modal with pokemon's details*/Qjuery
-	// function showModal(pokemon) {
-  //   modalContainer.innerHTML = '';
+	function showModal(pokemon) {
+    modalContainer.innerHTML = '';
+    console.log(pokemon);
 
   let modal = document.createElement('div');
   modal.classList.add('modal');
@@ -120,19 +124,26 @@ let PokemonRepository = (function () {
   // Add the new modal content
   let closeButtonElement = document.createElement('button');
   closeButtonElement.classList.add('modal-close');
+  closeButtonElement.innerText = 'CLOSE';
   closeButtonElement.addEventListener('click', hideModal);
 
-  titleElement.innerText = title;
+  let titleElement = document.createElement('h1');
+  titleElement.innerText = pokemon.name;
+
+  let myImage = document.createElement('img');
+  myImage.src = pokemon.imageUrlFront;
 
   let contentElement = document.createElement('p');
-  contentElement.innerText = text;
+  contentElement.innerText = pokemon.height;
 
   modal.appendChild(closeButtonElement);
   modal.appendChild(titleElement);
+  modal.appendChild(myImage);
   modal.appendChild(contentElement);
   modalContainer.appendChild(modal);
 
   modalContainer.classList.add('is-visible');
+}
 
   function hideModal() {
     let modalContainer = document.querySelector('#modal-container');
@@ -143,57 +154,6 @@ let PokemonRepository = (function () {
       dialogPromiseReject = null;
     }
   }
-
-  function showDialog(pokemon) {
-  showModal(pokemon);
-
-  // We have defined modalContainer here
-  let modalContainer = document.querySelector('#modal-container');
-
-  // We want to add a confirm and cancel button to the modal
-  let modal = modalContainer.querySelector('.modal');
-
-  let confirmButton = document.createElement('button');
-  confirmButton.classList.add('modal-confirm');
-  confirmButton.innerText = 'Confirm';
-
-  let cancelButton = document.createElement('button');
-  cancelButton.classList.add('modal-cancel');
-  cancelButton.innerText = 'Cancel';
-
-  modal.appendChild(confirmButton);
-  modal.appendChild(cancelButton);
-
-  // Return a promise that resolves when confirmed, else rejects
-  return new Promise((resolve, reject) => {
-    cancelButton.addEventListener('click', hideModal);
-    confirmButton.addEventListener('click', () => {
-      dialogPromiseReject = null; //Reset this
-      hideModal();
-      resolve();
-  });
-  //This can be used to reject other functions
-  dialogPromiseReject = reject;
-});
-
-let container = document.querySelector('#image-container');
-
-// Create an <img> element
-let myImage = document.createElement('img');
-
-// setting `src` property to set the actual element's `src` attribute
-// this also works on <img> elements selected by querySelector() method, it is not specific for <img> elements created with createElement() methods
-myImage.src = 'https://picsum.photos/300/300';
-
-container.appendChild(myImage);
-});
-
-  document.querySelector('#show-modal').addEventListener('click', () => {
-  showModal('Modal title', 'This is the modal content!');
-
-  document.querySelector('#show-dialog').addEventListener('click', () => {
-  showDialog('Confirm action', 'Are you sure you want to do this?');
-  });
 
   window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
@@ -220,7 +180,7 @@ if (target === modalContainer) {
 	};
 })();
 
-// console.log(PokemonRepository.getAll()); // see repository with the alteration
+console.log(PokemonRepository.getAll()); // see repository with the alteration
 
 PokemonRepository.loadList().then(function () {
 	PokemonRepository.getAll().forEach(function (pokemon) {
