@@ -7,79 +7,21 @@ body {
   margin-top: 60px;
 }
 
-.list-group {
+
+.list-group-item {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: 15px;
-	margin-top: 20px;
+	margin-top: 10px;
 	box-sizing: border-box;
-  background-color: #FFA591;
+  background-color: antiquewhite;
 }
 
-#modal-container {
-  display: none;
-}
-
-#modal-container.is-visible {
-  position: fixed;
-  padding: 20px;
-  box-sizing: border-box;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-
-  /* to show it above other content */
-  z-index: 999;
-
-  /* to allow scrolling if the screen is not high enough*/
-  overflow: auto;
-
-  /* this is used to center the modal */
-  display: grid;
-  text-align: center;
-}
-
-.modal {
-  margin: auto;
-  display: inline-block;
-  box-sizing: border-box;
-  background: #fff;
-  padding: 15px;
-  width: 100%;
-  max-width: 700px;
-  text-align: left;
-}
-
-.modal-close {
-  float: right;
-  -webkit-appearance: none;
-  border: 0;
-  background: none;
-  color: #777;
-  text-decoration: underline;
-}
-
-.modal h1 {
-  margin-top: 0;
-}
-
-.modal p {
-  margin-bottom: 0;
-}
-
-.button-class {
-    background-color: antiquewhite;
-    padding: 10px 20px;
-    margin: 2px 0px;
-}
-
-.buttonStyle {
-	background-color: auto;
+.btn {
+	background-color: #2A9C72;
 	border: 1px solid #fff;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-	color: #2A9C72;
+	color: white;
 	padding: 16px 32px;
 	text-align: center;
 	text-decoration: none;
@@ -93,8 +35,8 @@ body {
 	border-radius: 4px;
 }
 
-.buttonStyle:hover {
-	background-color: white;
+.btn:hover {
+	background-color: #60EBB9;
 	color: black;
 	border: 1px solid #ffcb05;
 }
