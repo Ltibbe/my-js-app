@@ -3,13 +3,17 @@ body {
   font-family: Arial, sans-serif;
 }
 
+.page-container {
+  margin-top: 60px;
+}
 
-.pokemon-list {
+.list-group {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: 15px;
-	margin-top: 60px;
+	margin-top: 20px;
 	box-sizing: border-box;
+  background-color: #FFA591;
 }
 
 #modal-container {
@@ -75,7 +79,7 @@ body {
 	background-color: auto;
 	border: 1px solid #fff;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-	color: #003a70;
+	color: #2A9C72;
 	padding: 16px 32px;
 	text-align: center;
 	text-decoration: none;
