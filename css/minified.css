@@ -1,0 +1,49 @@
+html,
+body {
+  font-family: Arial, sans-serif;
+  background-color: antiquewhite;
+}
+.page-container {
+  margin-top: 60px;
+}
+.pokemon-list-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 15px;
+  box-sizing: border-box;
+  padding: 5px;
+}
+/* On screens that are 992px or less, set the background color to blue */
+@media screen and (max-width: 992px) {
+  .pokemon-list-group {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 600px) {
+  .pokemon-list-group {
+    grid-template-columns: 1fr;
+  }
+}
+.btn {
+  background-color: #2a9c72;
+  border: 1px solid #fff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  width: 300px;
+  min-width: fit-content;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.btn:hover {
+  background-color: #60ebb9;
+  color: black;
+  border: 1px solid #ffcb05;
+}
