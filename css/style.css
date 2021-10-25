@@ -1,43 +1,42 @@
 html,
 body {
   font-family: Arial, sans-serif;
+  background-color: antiquewhite;
 }
 
 .page-container {
   margin-top: 60px;
 }
 
-
 .pokemon-list-group {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
-	grid-gap: 15px;
-	/* margin-top: 10px; */
-	box-sizing: border-box;
-  background-color: antiquewhite;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 15px;
+  /* margin-top: 10px; */
+  box-sizing: border-box;
   padding: 5px;
 }
 
 .btn {
-	background-color: #2A9C72;
-	border: 1px solid #fff;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-	color: white;
-	padding: 16px 32px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	width: 300px;
-	min-width: fit-content;
-	font-size: 16px;
-	margin: 4px 2px;
-	transition-duration: 0.4s;
-	cursor: pointer;
-	border-radius: 4px;
+  background-color: #2a9c72;
+  border: 1px solid #fff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  width: 300px;
+  min-width: fit-content;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 .btn:hover {
-	background-color: #60EBB9;
-	color: black;
-	border: 1px solid #ffcb05;
+  background-color: #60ebb9;
+  color: black;
+  border: 1px solid #ffcb05;
 }
