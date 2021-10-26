@@ -6,6 +6,9 @@ body {
 .page-container {
   margin-top: 60px;
 }
+.navbar {
+  justify-content: between;
+}
 .pokemon-list-group {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
